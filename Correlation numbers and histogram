@@ -1,0 +1,53 @@
+#%%
+
+import pandas as pd
+
+WHR = pd.read_excel("DataPanelWHR2021C2.xlsx")
+#copy paste columns for factors
+print(WHR.columns)
+
+#%%
+WHRfactors = ['Life Ladder',
+       'Log GDP per capita', 'Social support',
+       'Healthy life expectancy at birth', 'Freedom to make life choices',
+       'Generosity', 'Perceptions of corruption', 'Positive affect',
+       'Negative affect']
+
+#getting correlation for visualizations
+WHRcorr = WHRfactors.corr()
+
+print(WHRcorr)
+
+#saving file for visualizations
+#WHRcorr.to_excel("WHRCorrelation.xlsx")
+
+#%%
+
+WHRcorr.to_excel("WHRCorrelation.xlsx")
+#%%
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.cluster import KMeans
+import pandas as pd
+import numpy as np
+import os
+
+WHR.head()
+
+#%%
+
+#plotting histogram of WHR factors
+happiness_factors = ['Life Ladder',
+       'Log GDP per capita', 'Social support',
+       'Healthy life expectancy at birth', 'Freedom to make life choices',
+       'Generosity', 'Perceptions of corruption', 'Positive affect',
+       'Negative affect']
+
+def plot_columns_on_grid(data, columns, grid):
+    for i, column in enumerate(columns):
+        plt.subplot(grid[0], grid[1], i+1)
+        sns.distplot(data[column])
+
+plt.figure(figsize=(12,12))
+plot_columns_on_grid(WHR, WHRfactors, (3, 3))
+
